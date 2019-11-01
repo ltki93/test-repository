@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flower.mapper.ProductMapper">
+<select id="findList" resultType="com.flower.pojo.Product">
+	select id,product_name,img,price from product where status=1  order by created desc limit 0,8
+	</select>
+<select id="goodItem" resultType="com.flower.pojo.Product">
+	select id,product_name,img,price from product where status=1 and num>0  order by num asc limit 0,4
+	</select>
+</mapper>

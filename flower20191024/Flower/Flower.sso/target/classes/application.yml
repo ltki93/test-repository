@@ -1,0 +1,48 @@
+dubbo:
+    application:
+        name: provider-manager
+    protocol:
+        name: dubbo
+        port: 20883
+    registry:
+        address: zookeeper://192.168.198.131:2181?backup=192.168.198.131:2182,192.168.198.131:2183
+    scan:
+        basePackages: com.flower
+logging:
+  level: 
+    com.flower.mapper: debug
+
+mybatis-plus:
+  type-aliases-package: com.flower.pojo
+  mapper-locations: classpath:/mybatis/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    
+server:
+    port: 9092
+    servlet:
+        context-path: /
+    tomcat:
+        max-threads: 1000
+        uri-encoding: UTF-8
+spring:
+    datasource:
+        driver-class-name: com.mysql.jdbc.Driver
+        password: root
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://176.55.9.218:3306/flower?&serverTimezone=GMT%2B8&characterEncoding=utf8
+        username: root
+    http:
+        encoding:
+            charset: UTF-8
+            enabled: true
+            force: true
+    servlet:
+        multipart:
+            maxFileSize: 100MB
+            maxRequestSize: 100MB
+    thymeleaf:
+        cache: false
+        mode: LEGACYHTML5
+        prefix: classpath:/templates/pages/
+        suffix: .html

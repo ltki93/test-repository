@@ -1,0 +1,337 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>系统日志</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
+	<span class="c-gray en">&gt;</span>
+	系统管理
+	<span class="c-gray en">&gt;</span>
+	系统日志
+	<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a>
+</nav>
+<div class="page-container">
+	<div class="text-c"> 日期范围：
+		<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'logmax\')||\'%y-%M-%d\'}' })" id="logmin" class="input-text Wdate" style="width:120px;">
+		-
+		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'logmin\')}',maxDate:'%y-%M-%d' })" id="logmax" class="input-text Wdate" style="width:120px;">
+		<input type="text" name="" id="searchName" placeholder="日志名称" style="width:250px" class="input-text">
+		<button name="" id="search" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜日志</button>
+		<!-- $(".btn btn-success").on("click",doQueryObjects) -->
+	</div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20">
+		<span class="l">
+		<a id="PLSC" href="javascript:;" onclick="" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
+		</span>
+		<!-- <span class="r">共有数据：<strong>54</strong> 条</span> -->
+	</div>
+	<table class="table table-border table-bordered table-bg table-hover table-sort">
+		<thead>
+			<tr class="text-c">
+				<th width="45"><input type="checkbox" name="" value="" id="SSC">全选</th>
+				<th width="80">ID</th>
+				<th width="100">类型</th>
+				<th>内容</th>
+				<th width="17%">用户名</th>
+				<th width="120">客户端IP</th>
+				<th width="120">时间</th>
+				<th width="70" >操作</th>
+			</tr>
+		</thead>
+		<tbody id="tbody">
+			<tr class="text-c">
+				<td><input type="checkbox" value="" name="" id="SSC1" ></td>
+				<td>1</td>
+				<td>15686</td>
+				<td>登录成功!</td>
+				<td>admin</td>
+				<td>61.233.7.80</td>
+				<td>2014-6-11 11:11:42</td>
+				<td id="DDSC"><a id="DDSC1" title="删除" href="javascript:;" onclick="" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+<!-- 				<a title="详情" href="javascript:;" onclick="system_log_show(this,'10001')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe665;</i></a> -->
+			</tr>
+		</tbody>
+	</table>
+				<div id="pages">
+				&nbsp;
+				<span
+				class="r">总数据<strong id="rowCount"></strong>  条&nbsp;&nbsp;&nbsp;
+				</span>
+				<span 
+				class="r">当前第<strong id="pageCurrent"></strong>  页&nbsp;&nbsp;&nbsp;
+				</span>
+				<span
+				class="r">总页数<strong id="pageCount"></strong>  页&nbsp;&nbsp;&nbsp;
+				</span>
+				<span>
+				<a class="firstpage" href="javascript:;">首页</a> 
+				<a class="prevpage"  href="javascript:;">上一页</a> 
+				<a class="nextpage"  href="javascript:;">下一页</a> 
+				<a class="endpage"  href="javascript:;">尾页</a>
+				</span>
+			</div>
+	<div id="pageNav" class="pageNav"></div>
+	
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript">
+
+
+function system_log_del(obj,id){
+	layer.confirm('确认要删除吗？',function(index){
+		$.ajax({
+			type: 'POST',
+			url: '',
+			dataType: 'json',
+			success: function(data){
+				$(obj).parents("tr").remove();
+				layer.msg('已删除!',{icon:1,time:1000});
+			},
+			error:function(data) {
+				console.log(data.msg);
+			},
+		});		
+	});
+}
+
+
+
+
+
+
+$(function(){
+	console.log("1");
+	 doGetObjects();
+});
+
+function doGetObjects(){ 
+       console.log("1.第一")
+	   var url="logs/doFindLogsPageObjects";
+	   
+	   var pageCurrent=$("#pages").data("pageCurrent");
+	   if(!pageCurrent) pageCurrent=1;
+	   var params={"pageCurrent":pageCurrent};
+       /* params.username=null;
+	   params.username=$("#ss1").val();
+	   console.log(params); */
+	   
+	   var username=$("#searchName").val();
+	   if(username)params.username=username;
+	   //alert("没有东西");
+	   
+ $.getJSON(url,params,function(result){
+//console.log("2.dier")
+	        doHandleResponseResult(result);
+		 }
+	   );
+}
+function doHandleResponseResult (result){ //JsonResult
+      /*  console.log("3.第三");	 */
+	   if(result.state==1){//ok
+		//更新table中tbody内部的数据
+		doSetTableBodyRows(result.data.records);//将数据呈现在页面上 
+		//更新页面page.html分页数据
+		doSetPagination(result.data); 
+	    }else{
+		alert(result.msg);
+	    }  
+	    //console.log(result.data.records[0]);
+}
+function doSetTableBodyRows(records){
+		//console.log("4.第四")
+	   //1.获取tbody对象，并清空对象
+	   var tBody=$("tbody");
+	   tBody.empty();
+	   //2.迭代records记录，并将其内容追加到tbody
+	   for(var i in records){
+		   //2.1 构建tr对象
+		   var tr=$("<tr></tr>");
+		   //2.2 构建tds对象
+		   var tds=doCreateTds(records[i]);
+		   //2.3 将tds追加到tr中
+		   tr.append(tds);
+		   //2.4 将tr追加到tbody中
+		   tBody.append(tr);
+	   }
+}
+function doCreateTds(data){
+	   var tds="<td><input type='checkbox' class='cBox' name='cItem' value=''></td>"+
+	   		 "<td>"+data.id+"</td>"+
+		   	 "<td>"+data.type+"</td>"+
+		     "<td>"+data.content+"</td>"+
+		     "<td>"+data.username+"</td>"+
+		     "<td>"+data.ip+"</td>"+
+		     "<td>"+data.time+"</td>" +
+		     "<td>"+"<a "+"onclick='doDelete_id(this)'"+" title='删除' "+"href='javascript:;'"+"style='text-decoration:none'>"+"<i class='Hui-iconfont'>&#xe6e2;</i>"+"</a>"+"</td>";
+		     
+		     //console.log("12138"+data);
+return tds;
+}
+
+$(function(){
+	//事件注册
+	$("#pages").on("click",".firstpage,.prevpage,.nextpage,.endpage",doJumpToPage);
+	
+	
+})
+function doSetPagination(pageObject){
+		//console.log("jianghaiping"+pageObject);
+    	//1.初始化数据
+    	$("#rowCount").html(pageObject.rowCount);
+    	$("#pageCount").html(pageObject.pageCount);
+    	$("#pageCurrent").html(pageObject.pageCurrent);
+    	//2.绑定数据(为后续对此数据的使用提供服务)
+    	$("#pages").data("pageCurrent",pageObject.pageCurrent);
+    	$("#pages").data("pageCount",pageObject.pageCount);
+    }
+    function doJumpToPage(){
+    	//console.log("2112");
+        //1.获取点击对象的class值
+        var cls=$(this).prop("class");//Property
+        //2.基于点击的对象执行pageCurrent值的修改
+        //2.1获取pageCurrent,pageCount的当前值
+        var pageCurrent=$("#pages").data("pageCurrent");
+        var pageCount=$("#pages").data("pageCount");
+        //2.2修改pageCurrent的值
+        if(cls=="firstpage"){//首页
+        	pageCurrent=1;
+        }else if(cls=="prevpage"&&pageCurrent>1){//上一页
+        	pageCurrent--;
+        }else if(cls=="nextpage"&&pageCurrent<pageCount){//下一页
+        	pageCurrent++;
+        }else if(cls=="endpage"){//最后一页
+        	pageCurrent=pageCount;
+        }else{
+         return;
+		}
+        //3.对pageCurrent值进行重新绑定
+        $("#pages").data("pageCurrent",pageCurrent);
+        //4.基于新的pageCurrent的值进行当前页数据查询
+        doGetObjects();
+        //console.log("121212"+doGetObjects());
+    }
+
+	//查询事件
+	$(function(){
+		console.log("9999");
+		//1.事件注册
+		//debugger
+		//$("#search").on("click",".btn-success",doQueryObjects)
+		  $("#search").on("click",doQueryObjects); 
+	})
+	function doQueryObjects(){
+		console.log("1211111");
+		$("#pages").data("pageCurrent",1)
+		doGetObjects();
+	} 
+
+	
+	//PLSC批量删除  DDSC删除事件
+	$(function(){
+		console.log(0);
+		$("#PLSC").on("click",function(){
+			console.log(1);
+			  if(confirm("要删除此数据吗?")){
+				  doDeleteChoosedAll();
+			  }else{
+				  return;
+			  }  
+		 })
+	})
+	function doDelete_id(obj) {
+		  if(confirm("要删除此数据吗?")){
+			  var ids=[];
+			  ids.push($(obj).parents("tr").find("td:eq(1)").text());
+			  doDeleteObjects(ids);
+		  }else{
+			  return;
+		  }
+	}
+	
+	function doDeleteChoosedAll(){
+		//debugger
+		var ids=doGetChoosed();
+		   if(ids.length==0){
+			   alert("未选择");
+			   return;
+		   }
+		   doDeleteObjects(ids);
+	       doGetObjects();
+	}
+	
+	//1.定义doGetChoosed
+	
+	function doGetChoosed(){
+		//debugger
+		var ids=[];
+		$("#tbody input[type='checkbox']").each(function(){
+			  console.log("!!111!!");
+			   var checked=$(this).prop("checked");
+			   if(checked){
+				   id=$(this).parents("tr").find("td:eq(1)").text();
+				   console.log(id);
+				   ids.push(id);
+			   }
+		});
+		if(ids.length==0){
+			   alert("请至少选择一个")
+		}
+		   return ids;
+	}
+	
+	
+	//2.定义doDeleteObjects
+	function doDeleteObjects(ids){
+	var params={"ids":ids.toString()};
+	   console.log(params);
+	$.post("logs/doDeleteObjects",params,function(result){
+		if(result.state==1){
+		alert("删除成功");
+		doGetObjects()
+		}else{
+		alert("删除失败");
+		doGetObjects()
+		}
+	})
+}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</script>
+</body>
+</html>
